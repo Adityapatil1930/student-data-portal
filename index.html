@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Data Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="auth-panel" id="authPanel">
+        <div class="brand-block">
+          <div class="brand-mark">SD</div>
+          <div>
+            <p class="eyebrow">Secure academic records</p>
+            <h1>Student Data Portal</h1>
+          </div>
+        </div>
+        <p class="lead">
+          Upload, verify, search, and download submitted registration records from a clean browser-based database.
+        </p>
+
+        <div class="auth-card">
+          <div class="auth-tabs" role="tablist" aria-label="Account options">
+            <button class="tab-button active" data-auth-tab="login" type="button">Login</button>
+            <button class="tab-button" data-auth-tab="signup" type="button">Create account</button>
+            <button class="tab-button" data-auth-tab="forgot" type="button">Forgot password</button>
+          </div>
+
+          <form class="auth-form active" id="loginForm">
+            <label>
+              Email address
+              <input id="loginEmail" type="email" autocomplete="email" required placeholder="admin@example.com" />
+            </label>
+            <label>
+              Password
+              <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Enter password" />
+            </label>
+            <button class="primary-action" type="submit">Login to dashboard</button>
+          </form>
+
+          <form class="auth-form" id="signupForm">
+            <label>
+              Full name
+              <input id="signupName" type="text" autocomplete="name" required placeholder="Your name" />
+            </label>
+            <label>
+              Email address
+              <input id="signupEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </label>
+            <label>
+              Password
+              <input id="signupPassword" type="password" autocomplete="new-password" minlength="6" required placeholder="Minimum 6 characters" />
+            </label>
+            <button class="primary-action" type="submit">Create account</button>
+          </form>
+
+          <form class="auth-form" id="forgotForm">
+            <label>
+              Registered email
+              <input id="forgotEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </label>
+            <button class="primary-action" type="submit">Reset password</button>
+            <p class="hint">For this demo, the reset creates a temporary password on this device.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="dashboard hidden" id="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Manage submitted data</h2>
+          </div>
+          <div class="topbar-actions">
+            <span id="signedInUser" class="signed-in"></span>
+            <button class="ghost-action" id="logoutBtn" type="button">Logout</button>
+          </div>
+        </header>
+
+        <section class="stats-grid" aria-label="Database summary">
+          <article>
+            <span>Total records</span>
+            <strong id="totalRecords">0</strong>
+          </article>
+          <article>
+            <span>Programs</span>
+            <strong id="totalPrograms">0</strong>
+          </article>
+          <article>
+            <span>Latest passing year</span>
+            <strong id="latestYear">-</strong>
+          </article>
+        </section>
+
+        <div class="workspace-grid">
+          <section class="data-entry">
+            <div class="section-heading">
+              <h3>Add student record</h3>
+              <button class="ghost-action" id="clearFormBtn" type="button">Clear</button>
+            </div>
+            <form id="recordForm" class="record-form">
+              <label>
+                Serial no.
+                <input id="serialNo" required placeholder="001" />
+              </label>
+              <label>
+                Registration no.
+                <input id="regNo" required placeholder="REG2026001" />
+              </label>
+              <label>
+                Course no.
+                <input id="courseNo" required placeholder="CS-101" />
+              </label>
+              <label>
+                Program code
+                <input id="programCode" required placeholder="BTECH-CSE" />
+              </label>
+              <label>
+                Year of passing
+                <input id="passingYear" type="number" min="1950" max="2100" required placeholder="2026" />
+              </label>
+              <label>
+                Student name
+                <input id="studentName" required placeholder="Student full name" />
+              </label>
+              <label>
+                Status
+                <select id="status">
+                  <option>Submitted</option>
+                  <option>Verified</option>
+                  <option>Pending</option>
+                </select>
+              </label>
+              <label class="wide">
+                Notes
+                <textarea id="notes" rows="3" placeholder="Optional remarks"></textarea>
+              </label>
+              <button class="primary-action wide" type="submit" id="saveRecordBtn">Save record</button>
+            </form>
+          </section>
+
+          <section class="data-tools">
+            <div class="section-heading">
+              <h3>Database tools</h3>
+            </div>
+            <div class="tool-stack">
+              <label class="upload-box">
+                <input id="csvInput" type="file" accept=".csv,text/csv" />
+                <span>Upload CSV data</span>
+                <small>Headers: serial no, reg no, course no, program code, year of passing</small>
+              </label>
+              <button class="secondary-action" id="downloadCsvBtn" type="button">Download CSV</button>
+              <button class="secondary-action" id="downloadJsonBtn" type="button">Download JSON</button>
+              <button class="danger-action" id="clearDatabaseBtn" type="button">Clear database</button>
+            </div>
+          </section>
+        </div>
+
+        <section class="records-section">
+          <div class="records-toolbar">
+            <div>
+              <h3>Submitted records</h3>
+              <p id="recordCount">No records yet</p>
+            </div>
+            <label class="search-field">
+              <span>Search</span>
+              <input id="searchInput" placeholder="Reg no, course, name, program..." />
+            </label>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Serial</th>
+                  <th>Reg no</th>
+                  <th>Course</th>
+                  <th>Program</th>
+                  <th>Year</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recordsTable"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState">
+              <strong>No data submitted yet</strong>
+              <span>Add a record or upload a CSV file to begin.</span>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
